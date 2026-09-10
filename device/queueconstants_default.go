@@ -7,13 +7,20 @@
 
 package device
 
-import "golang.zx2c4.com/wireguard/conn"
+import "github.com/snehesht/wireguard-go/conn"
 
 const (
-	QueueStagedSize            = conn.IdealBatchSize
-	QueueOutboundSize          = 1024
-	QueueInboundSize           = 1024
-	QueueHandshakeSize         = 1024
-	MaxSegmentSize             = (1 << 16) - 1 // largest possible UDP datagram
-	PreallocatedBuffersPerPool = 0             // Disable and allow for infinite memory growth
+	QueueStagedSize    = conn.IdealBatchSize
+	QueueHandshakeSize = 1024
+	MaxSegmentSize     = (1 << 16) - 1 // largest possible UDP datagram
+)
+
+// Sizes a consumer may set before NewDevice, as iOS already does: the per-peer
+// outbound and the inbound queue depths, and the bound on every buffer pool
+// (0 is unbounded, which lets a receiver that falls behind hold QueueInboundSize
+// batches of 64 KB buffers). wirepeer's fork; upstream keeps them const here.
+var (
+	QueueOutboundSize          int    = 1024
+	QueueInboundSize           int    = 1024
+	PreallocatedBuffersPerPool uint32 = 0
 )
