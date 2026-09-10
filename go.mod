@@ -1,4 +1,4 @@
-module github.com/snehesht/wireguard-go
+module github.com/wirepeer/wireguard-go
 
 go 1.23.1
 
